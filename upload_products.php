@@ -58,22 +58,23 @@ foreach ($products as $product) {
     $currentProduct++;
     
     $formattedData = [
-        "product_id" => $product["product_id"],
+        "product_id" => $product["id"],
         "part_number" => $product["data"]["part_number"],
         "product_name" => $product["data"]["product_name"],
         "images" => $product["data"]["images"],
         "oem_reference" => $product["data"]["oem_reference"],
         "compatibility" => $product["data"]["compatibility"],
-        "technical_specifications" => $product["data"]["technical_specifications"]
+        "technical_specifications" => $product["data"]["technical_specifications"],
+        "product_category_string" => $product["data"]["product_category_string"]
     ];
 
     $result = sendPostRequest($apiUrl, $authToken, $formattedData);
 
     if ($result["http_code"] === 200 || $result["http_code"] === 201) {
-        echo "Uploading $currentProduct/$totalProducts: " . $product["product_id"] . " - Success\n";
+        echo "Uploading $currentProduct/$totalProducts: " . $product["id"] . " - Success\n";
     } else {
-        echo "Uploading $currentProduct/$totalProducts: " . $product["product_id"] . " - Fail\n";
-        $failedUploads[] = $product["product_id"];
+        echo "Uploading $currentProduct/$totalProducts: " . $product["id"] . " - Fail\n";
+        $failedUploads[] = $product["id"];
     }
 
     usleep(500000);
